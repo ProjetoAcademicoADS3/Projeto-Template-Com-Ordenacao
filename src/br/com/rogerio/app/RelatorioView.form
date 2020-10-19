@@ -38,6 +38,10 @@
               <Component id="jButtonEnfaseCursoNome" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jButtonCursoEnfaseNome" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jButtonEnfaseEnome" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jButtonOrdenacaoPorSobrenome" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -45,16 +49,18 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
               <Component id="jPanelRelatorio" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButtonEnfaseCursoNome" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonCursoEnfaseNome" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonEnfaseEnome" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonOrdenacaoPorSobrenome" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="319" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="368" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -161,6 +167,7 @@
             <Property name="text" type="java.lang.String" value="Situa&#xe7;&#xe3;o de Nome"/>
           </Properties>
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSituacaoNomeActionPerformed"/>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jButtonSituacaoNomeKeyPressed"/>
           </Events>
         </Component>
@@ -169,6 +176,7 @@
             <Property name="text" type="java.lang.String" value="Situacao / Curso / Nome"/>
           </Properties>
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSituacaoCursoNomeActionPerformed"/>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jButtonSituacaoCursoNomeKeyPressed"/>
           </Events>
         </Component>
@@ -227,6 +235,7 @@
         <Property name="text" type="java.lang.String" value="Enfase / Curso / Nome"/>
       </Properties>
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEnfaseCursoNomeActionPerformed"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jButtonEnfaseCursoNomeKeyPressed"/>
       </Events>
     </Component>
@@ -235,7 +244,24 @@
         <Property name="text" type="java.lang.String" value="Curso / Enfase / Nome"/>
       </Properties>
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCursoEnfaseNomeActionPerformed"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jButtonCursoEnfaseNomeKeyPressed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonEnfaseEnome">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Enfase / Nome"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEnfaseEnomeActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonOrdenacaoPorSobrenome">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Sobrenome"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonOrdenacaoPorSobrenomeActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -10,8 +10,10 @@ import br.com.rogerio.dal.RelatorioDal;
 import br.com.rogerio.dal.RelatorioDalOrdenacaoEnfaseCursoNome;
 import br.com.rogerio.dal.RelatorioDalOrdenacaoPorCursoEnfaseNome;
 import br.com.rogerio.dal.RelatorioDalOrdenacaoPorCursoEnome;
+import br.com.rogerio.dal.RelatorioDalOrdenacaoPorEnfaseEnome;
 import br.com.rogerio.dal.RelatorioDalOrdenacaoPorSituacaoCursoNome;
 import br.com.rogerio.dal.RelatorioDalOrdenacaoPorSituacaoEnome;
+import br.com.rogerio.dal.RelatorioDalOrdenacaoPorSobrenome;
 import br.com.rogerio.dal.RelatorioDalOrdenadoPorCurso;
 import br.com.rogerio.dal.RelatorioDalOrdenadoPorEnfase;
 import br.com.rogerio.dal.RelatorioDalOrdenadoPorSituacao;
@@ -39,6 +41,8 @@ public class RelatorioView extends javax.swing.JFrame {
     RelatorioDal dalSituacaoCursoNome;
     RelatorioDal dalEnfaseCursoNome;
     RelatorioDal dalCursoEnfaseNome;
+    RelatorioDal dalEnfaseEnome;
+    RelatorioDal dalSobrenome;
 
     /**
      * Creates new form RelatorioView
@@ -59,6 +63,8 @@ public class RelatorioView extends javax.swing.JFrame {
             dalSituacaoCursoNome = new RelatorioDalOrdenacaoPorSituacaoCursoNome(nomeDoArquivo);
             dalEnfaseCursoNome = new RelatorioDalOrdenacaoEnfaseCursoNome(nomeDoArquivo);
             dalCursoEnfaseNome = new RelatorioDalOrdenacaoPorCursoEnfaseNome(nomeDoArquivo);
+            dalEnfaseEnome = new RelatorioDalOrdenacaoPorEnfaseEnome(nomeDoArquivo);
+            dalSobrenome = new RelatorioDalOrdenacaoPorSobrenome(nomeDoArquivo);
 
         } catch (Exception ex) {
             Logger.getLogger(RelatorioView.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,6 +87,36 @@ public class RelatorioView extends javax.swing.JFrame {
             pos++;
         }
     }
+    
+    private void imprimirRelatorioOrdenadoPorSobreNome(ArrayList<Relatorio> dados) {
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTableRelatorioEnfase.getModel();
+            model.setNumRows(0);
+            int pos = 1;
+            while (pos < dados.size()) {
+                String[] linha = new String[4];
+                Relatorio obj = dados.get(pos);
+
+                String[] nome = obj.getNome().split(" ");
+                String sobrenome = nome[nome.length - 1];
+
+                if (sobrenome.equalsIgnoreCase("junior")
+                        || sobrenome.equalsIgnoreCase("neto")
+                        || sobrenome.equalsIgnoreCase("filho")) {
+                    sobrenome = nome[nome.length - 2];
+                }
+
+                linha[0] = sobrenome.toUpperCase() + ", " + nome[0];
+                linha[1] = obj.getCurso();
+                linha[2] = obj.getSituacao();
+                linha[3] = obj.getEnfase();
+                model.addRow(linha);
+                pos++;
+            }
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(rootPane, erro);
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -99,6 +135,8 @@ public class RelatorioView extends javax.swing.JFrame {
         jTableRelatorioEnfase = new javax.swing.JTable();
         jButtonEnfaseCursoNome = new javax.swing.JButton();
         jButtonCursoEnfaseNome = new javax.swing.JButton();
+        jButtonEnfaseEnome = new javax.swing.JButton();
+        jButtonOrdenacaoPorSobrenome = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Relatório da Ênfases");
@@ -167,6 +205,11 @@ public class RelatorioView extends javax.swing.JFrame {
         });
 
         jButtonSituacaoNome.setText("Situação de Nome");
+        jButtonSituacaoNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSituacaoNomeActionPerformed(evt);
+            }
+        });
         jButtonSituacaoNome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jButtonSituacaoNomeKeyPressed(evt);
@@ -174,6 +217,11 @@ public class RelatorioView extends javax.swing.JFrame {
         });
 
         jButtonSituacaoCursoNome.setText("Situacao / Curso / Nome");
+        jButtonSituacaoCursoNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSituacaoCursoNomeActionPerformed(evt);
+            }
+        });
         jButtonSituacaoCursoNome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jButtonSituacaoCursoNomeKeyPressed(evt);
@@ -241,6 +289,11 @@ public class RelatorioView extends javax.swing.JFrame {
         }
 
         jButtonEnfaseCursoNome.setText("Enfase / Curso / Nome");
+        jButtonEnfaseCursoNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEnfaseCursoNomeActionPerformed(evt);
+            }
+        });
         jButtonEnfaseCursoNome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jButtonEnfaseCursoNomeKeyPressed(evt);
@@ -248,9 +301,28 @@ public class RelatorioView extends javax.swing.JFrame {
         });
 
         jButtonCursoEnfaseNome.setText("Curso / Enfase / Nome");
+        jButtonCursoEnfaseNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCursoEnfaseNomeActionPerformed(evt);
+            }
+        });
         jButtonCursoEnfaseNome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jButtonCursoEnfaseNomeKeyPressed(evt);
+            }
+        });
+
+        jButtonEnfaseEnome.setText("Enfase / Nome");
+        jButtonEnfaseEnome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEnfaseEnomeActionPerformed(evt);
+            }
+        });
+
+        jButtonOrdenacaoPorSobrenome.setText("Sobrenome");
+        jButtonOrdenacaoPorSobrenome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOrdenacaoPorSobrenomeActionPerformed(evt);
             }
         });
 
@@ -269,20 +341,26 @@ public class RelatorioView extends javax.swing.JFrame {
                 .addComponent(jButtonEnfaseCursoNome)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCursoEnfaseNome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonEnfaseEnome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonOrdenacaoPorSobrenome)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(jPanelRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonEnfaseCursoNome)
-                    .addComponent(jButtonCursoEnfaseNome))
+                    .addComponent(jButtonCursoEnfaseNome)
+                    .addComponent(jButtonEnfaseEnome)
+                    .addComponent(jButtonOrdenacaoPorSobrenome))
                 .addGap(34, 34, 34)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -332,25 +410,17 @@ public class RelatorioView extends javax.swing.JFrame {
 
     private void jButtonOrdenarPorNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonOrdenarPorNomeKeyPressed
         try {
-
-            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                imprimirRelatorioOrdenado(dalNome.listarRelatorio());
-            }
+            imprimirRelatorioOrdenado(dalNome.listarRelatorio());
 
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Atenção !!!\n" + erro.getMessage());
-
         }
     }//GEN-LAST:event_jButtonOrdenarPorNomeKeyPressed
 
     private void jButtonOrdenarPorCursoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonOrdenarPorCursoKeyPressed
         try {
 
-            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                imprimirRelatorioOrdenado(dalCurso.listarRelatorio());
-            }
+            imprimirRelatorioOrdenado(dalCurso.listarRelatorio());
 
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Atenção !!!\n" + erro.getMessage());
@@ -361,10 +431,7 @@ public class RelatorioView extends javax.swing.JFrame {
     private void jButtonOrdenadoPorSituacaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonOrdenadoPorSituacaoKeyPressed
         try {
 
-            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                imprimirRelatorioOrdenado(dalSituacao.listarRelatorio());
-            }
+            imprimirRelatorioOrdenado(dalSituacao.listarRelatorio());
 
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Atenção !!!\n" + erro.getMessage());
@@ -375,10 +442,7 @@ public class RelatorioView extends javax.swing.JFrame {
     private void jButtonOrdenarPorEnfaseKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonOrdenarPorEnfaseKeyPressed
         try {
 
-            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                imprimirRelatorioOrdenado(dalEnfase.listarRelatorio());
-            }
+            imprimirRelatorioOrdenado(dalEnfase.listarRelatorio());
 
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Atenção !!!\n" + erro.getMessage());
@@ -389,10 +453,7 @@ public class RelatorioView extends javax.swing.JFrame {
     private void jButtonOrdenadoCursoEnomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonOrdenadoCursoEnomeKeyPressed
         try {
 
-            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                imprimirRelatorioOrdenado(dalCursoEnome.listarRelatorio());
-            }
+            imprimirRelatorioOrdenado(dalCursoEnome.listarRelatorio());
 
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Atenção !!!\n" + erro.getMessage());
@@ -401,62 +462,88 @@ public class RelatorioView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonOrdenadoCursoEnomeKeyPressed
 
     private void jButtonSituacaoNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSituacaoNomeKeyPressed
-        try {
-
-            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                imprimirRelatorioOrdenado(dalSituacaoEnome.listarRelatorio());
-            }
-
-        } catch (Exception erro) {
-            JOptionPane.showMessageDialog(null, "Atenção !!!\n" + erro.getMessage());
-
-        }
+        
     }//GEN-LAST:event_jButtonSituacaoNomeKeyPressed
 
     private void jButtonSituacaoCursoNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSituacaoCursoNomeKeyPressed
-        try {
-
-            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                imprimirRelatorioOrdenado(dalSituacaoCursoNome.listarRelatorio());
-
-            }
-
-        } catch (Exception erro) {
-            JOptionPane.showMessageDialog(null, "Atenção !!!\n" + erro.getMessage());
-
-        }
+        
     }//GEN-LAST:event_jButtonSituacaoCursoNomeKeyPressed
 
     private void jButtonEnfaseCursoNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonEnfaseCursoNomeKeyPressed
-        try {
-
-            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                imprimirRelatorioOrdenado(dalEnfaseCursoNome.listarRelatorio());
-            }
-
-        } catch (Exception erro) {
-            JOptionPane.showMessageDialog(null, "Atenção !!!\n" + erro.getMessage());
-
-        }
+        
     }//GEN-LAST:event_jButtonEnfaseCursoNomeKeyPressed
 
     private void jButtonCursoEnfaseNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonCursoEnfaseNomeKeyPressed
+        
+    }//GEN-LAST:event_jButtonCursoEnfaseNomeKeyPressed
+
+    private void jButtonSituacaoNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSituacaoNomeActionPerformed
+        // TODO add your handling code here:
         try {
 
-            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-
-                imprimirRelatorioOrdenado(dalCursoEnfaseNome.listarRelatorio());
-                jButtonOrdenarPorNome.requestFocus();
-            }
+            imprimirRelatorioOrdenado(dalSituacaoEnome.listarRelatorio());
 
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Atenção !!!\n" + erro.getMessage());
 
         }
-    }//GEN-LAST:event_jButtonCursoEnfaseNomeKeyPressed
+    }//GEN-LAST:event_jButtonSituacaoNomeActionPerformed
+
+    private void jButtonSituacaoCursoNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSituacaoCursoNomeActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            imprimirRelatorioOrdenado(dalSituacaoCursoNome.listarRelatorio());
+
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, "Atenção !!!\n" + erro.getMessage());
+
+        }
+    }//GEN-LAST:event_jButtonSituacaoCursoNomeActionPerformed
+
+    private void jButtonEnfaseCursoNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnfaseCursoNomeActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            imprimirRelatorioOrdenado(dalEnfaseCursoNome.listarRelatorio());
+
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, "Atenção !!!\n" + erro.getMessage());
+
+        }
+    }//GEN-LAST:event_jButtonEnfaseCursoNomeActionPerformed
+
+    private void jButtonCursoEnfaseNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCursoEnfaseNomeActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            imprimirRelatorioOrdenado(dalCursoEnfaseNome.listarRelatorio());
+            jButtonOrdenarPorNome.requestFocus();
+
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, "Atenção !!!\n" + erro.getMessage());
+
+        }
+    }//GEN-LAST:event_jButtonCursoEnfaseNomeActionPerformed
+
+    private void jButtonEnfaseEnomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnfaseEnomeActionPerformed
+        // TODO add your handling code here:
+        try {
+            imprimirRelatorioOrdenado(dalEnfaseEnome.listarRelatorio());
+            
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        }
+    }//GEN-LAST:event_jButtonEnfaseEnomeActionPerformed
+
+    private void jButtonOrdenacaoPorSobrenomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOrdenacaoPorSobrenomeActionPerformed
+        // TODO add your handling code here:
+        try {
+            imprimirRelatorioOrdenadoPorSobreNome(dalSobrenome.listarRelatorio());
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        }
+    }//GEN-LAST:event_jButtonOrdenacaoPorSobrenomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -496,6 +583,8 @@ public class RelatorioView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCursoEnfaseNome;
     private javax.swing.JButton jButtonEnfaseCursoNome;
+    private javax.swing.JButton jButtonEnfaseEnome;
+    private javax.swing.JButton jButtonOrdenacaoPorSobrenome;
     private javax.swing.JButton jButtonOrdenadoCursoEnome;
     private javax.swing.JButton jButtonOrdenadoPorSituacao;
     private javax.swing.JButton jButtonOrdenarPorCurso;
